@@ -10,22 +10,22 @@ public class MyGame : Game
 	}
 
     Ball ball;
-    List<BallCollider> colliders = new List<BallCollider>();
+    List<Collider> colliders = new List<Collider>();
 
     public MyGame() : base(800, 600, false, false)
     {
-        ball = new Ball(30, new Vec2(width / 2, height ));
-        ball.Velocity = new Vec2(200, -100);
+        ball = new Ball(30, new Vec2(width / 2, height / 2));
+        ball.Velocity = new Vec2(100, -100);
         AddChild(ball);
 
-        colliders.Add(new BorderWall(new Vec2(width - 10, 10), new Vec2(width - 10, height - 10)));
+        colliders.Add(new BorderWall(new Vec2(width - 10, 0 - 10), new Vec2(width - 10, height - 10)));
         
     }
 
     void Update()
     {
         ball.Step();
-        foreach (BallCollider collider in colliders)
+        foreach (Collider collider in colliders)
         {
             if (collider.isColliding(ball))
             {
