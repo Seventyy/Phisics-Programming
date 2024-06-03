@@ -12,12 +12,12 @@ public class BorderWall : EasyDraw, BallCollider
         get { return _normal; }
     }
 
-    public BorderWall(Vec2 start, Vec2 end) : base(800, 600)
+    public BorderWall(Vec2 start, Vec2 end, bool reverse_normal = false) : base(800, 600)
     {
         _start = start;
         _end = end;
 
-        _normal = (_end - _start).Normal();
+        _normal = (reverse_normal ? -1 : 1) * (_end - _start).Normal();
 
         x = 0;
         y = 0;
@@ -34,6 +34,7 @@ public class BorderWall : EasyDraw, BallCollider
 
     public bool isColliding(Ball ball)
     {
+        if (ball == null) return false;
         if ((ball.Position - _start).Dot(_normal) < ball.Radius)
         {
             return true;
@@ -44,8 +45,9 @@ public class BorderWall : EasyDraw, BallCollider
     public void ResolveCollision(Ball ball)
     {
         float distance = (ball.Position - _start).Dot(_normal);
-            
-        ball.Position += _normal * (ball.Radius - distance);
+
+        ball.Position -= ball.Displacement.Normalized() * (ball.Radius - distance) * ball.Displacement.Length() / -ball.Displacement.Dot(_normal);
         ball.Velocity = ball.Velocity.Reflected(_normal);
+
     }
 }

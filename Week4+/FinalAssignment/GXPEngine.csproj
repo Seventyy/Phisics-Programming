@@ -39,10 +39,12 @@
     <Compile Include="Ball.cs" />
     <Compile Include="BorderWall.cs" />
     <Compile Include="BallCollider.cs" />
+    <Compile Include="Brick.cs" />
     <Compile Include="Components\Arrow.cs" />
     <Compile Include="Components\LineSegment.cs" />
     <Compile Include="Components\NLineSegment.cs" />
     <Compile Include="MyGame.cs" />
+    <Compile Include="Paddle.cs" />
     <Compile Include="Vec2.cs" />
     <Compile Include="..\..\GXPEngine2023b\GXPEngine\AddOns\Gizmos.cs">
       <Link>GXPEngine\AddOns\Gizmos.cs</Link>
@@ -165,5 +167,7 @@
       <Link>GXPEngine\SoLoud\SoloudSoundSystem.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ball.png" />
+  </ItemGroup>
 </Project>

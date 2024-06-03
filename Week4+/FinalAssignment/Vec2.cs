@@ -6,13 +6,19 @@ public struct Vec2
 	public float x;
 	public float y;
 
-	public Vec2 (float pX = 0, float pY = 0) 
-	{
-		x = pX;
-		y = pY;
-	}
+    public Vec2(float _x, float _y)
+    {
+        x = _x;
+        y = _y;
+    }
 
-	public override string ToString () 
+    public Vec2(float _xy)
+    {
+        x = _xy;
+        y = _xy;
+    }
+
+    public override string ToString () 
 	{
 		return String.Format ("({0},{1})", x, y);
 	}
@@ -26,6 +32,11 @@ public struct Vec2
 	public float Length() {
 		return Mathf.Sqrt (x * x + y * y);
 	}
+
+    public float LengthSquared()
+    {
+        return x * x + y * y;
+    }
 
 	public void Normalize() {
 		float len = Length ();
@@ -62,8 +73,37 @@ public struct Vec2
 		return new Vec2 (v.x / scalar, v.y / scalar);
 	}
 
+    public static bool operator ==(Vec2 left, Vec2 right)
+    {
+        return left.x == right.x && left.y == right.y;
+    }
+    public static bool operator !=(Vec2 left, Vec2 right)
+    {
+        return left.x != right.x || left.y != right.y;
+    }
+
+    public static bool operator <(Vec2 left, Vec2 right)
+    {
+        return left.x < right.x && left.y < right.y;
+    }
+    public static bool operator >(Vec2 left, Vec2 right)
+    {
+        return left.x > right.x && left.y > right.y;
+    }
+
+    public static bool operator <=(Vec2 left, Vec2 right)
+    {
+        return left.x <= right.x && left.y <= right.y;
+    }
+
+    public static bool operator >=(Vec2 left, Vec2 right)
+    {
+        return left.x >= right.x && left.y >= right.y;
+    }
+
+
     //////////////////////////////////////////////////////////////////////
-    
+
     public static float Deg2Rad(float degrees)
     {
         return degrees * (float)Math.PI / 180f;
@@ -194,7 +234,7 @@ public struct Vec2
         // Test Normalize
         Vec2 testVec3 = new Vec2(3, 4);
         testVec3.Normalize();
-        if (testVec3.Length() != 1 || testVec3.x != 0.6 || testVec3.y != 0.8 )
+        if (testVec3.Length() != 1.0f || testVec3.x != 0.6f || testVec3.y != 0.8f)
         {
             allTestsPassed = false;
             Console.WriteLine("Normalize test failed");
@@ -287,7 +327,7 @@ public struct Vec2
 
         // Test RandomUnitVector
         Vec2 randomUnitVec = Vec2.RandomUnitVector();
-        if (randomUnitVec.Length() != 1)
+        if (!Approx(randomUnitVec.Length(), 1.0f))
         {
             allTestsPassed = false;
             Console.WriteLine("RandomUnitVector test failed");
@@ -296,7 +336,7 @@ public struct Vec2
         // Test SetAngleDegrees
         Vec2 testVec11 = new Vec2(3, 4);
         testVec11.SetAngleDegrees(45);
-        if (testVec11.x != (float)Math.Sqrt(2) / 2 * 5 || testVec11.y != (float)Math.Sqrt(2) / 2 * 5)
+        if (!Approx(testVec11.x , (float)Math.Sqrt(2) / 2 * 5) || !Approx(testVec11.y , (float)Math.Sqrt(2) / 2 * 5))
         {
             allTestsPassed = false;
             Console.WriteLine("SetAngleDegrees test failed");
@@ -305,7 +345,7 @@ public struct Vec2
         // Test SetAngleRadians
         Vec2 testVec12 = new Vec2(3, 4);
         testVec12.SetAngleRadians((float)Math.PI / 4);
-        if (testVec12.x != (float)Math.Sqrt(2) / 2 * 5 || testVec12.y != (float)Math.Sqrt(2) / 2 * 5)
+        if (!Approx(testVec12.x , (float)Math.Sqrt(2) / 2 * 5 )|| !Approx(testVec12.y, (float)Math.Sqrt(2) / 2 * 5))
         {
             allTestsPassed = false;
             Console.WriteLine("SetAngleRadians test failed");
@@ -332,7 +372,7 @@ public struct Vec2
         // Test RotateDegrees
         Vec2 testVec15 = new Vec2(1, 0);
         testVec15.RotateDegrees(90);
-        if (testVec15.x != 0 || testVec15.y != 1)
+        if (!Approx(testVec15.x, 0) || !Approx(testVec15.y, 1))
         {
             allTestsPassed = false;
             Console.WriteLine("RotateDegrees test failed");
@@ -341,7 +381,7 @@ public struct Vec2
         // Test RotateRadians
         Vec2 testVec16 = new Vec2(1, 0);
         testVec16.RotateRadians((float)Math.PI / 2);
-        if (testVec16.x != 0 || testVec16.y != 1)
+        if (!Approx(testVec16.x , 0) || !Approx(testVec16.y, 1))
         {
             allTestsPassed = false;
             Console.WriteLine("RotateRadians test failed");
@@ -351,7 +391,7 @@ public struct Vec2
         Vec2 testVec17 = new Vec2(1, 0);
         Vec2 point = new Vec2(1, 0);
         testVec17.RotateAroundDegrees(point, 90);
-        if (testVec17.x != 1 || testVec17.y != 1)
+        if (!Approx(testVec17.x, 1) || !Approx(testVec17.y, 1))
         {
             allTestsPassed = false;
             Console.WriteLine("RotateAroundDegrees test failed");
@@ -361,7 +401,7 @@ public struct Vec2
         Vec2 testVec18 = new Vec2(1, 0);
         Vec2 point2 = new Vec2(1, 0);
         testVec18.RotateAroundRadians(point2, (float)Math.PI / 2);
-        if (testVec18.x != 1 || testVec18.y != 1)
+        if (!Approx(testVec18.x, 1) || !Approx(testVec18.y, 1))
         {
             allTestsPassed = false;
             Console.WriteLine("RotateAroundRadians test failed");
@@ -370,7 +410,7 @@ public struct Vec2
         // Test Rotated
         Vec2 testVec19 = new Vec2(1, 0);
         Vec2 rotatedVec = testVec19.Rotated((float)Math.PI / 2);
-        if (rotatedVec.x != 0 || rotatedVec.y != 1)
+        if (!Approx(rotatedVec.x, 0) || !Approx(rotatedVec.y, 1))
         {
             allTestsPassed = false;
             Console.WriteLine("Rotated test failed");
@@ -387,9 +427,9 @@ public struct Vec2
         }
 
         // Test Normal
-        Vec2 testVec22 = new Vec2(1, 2);
+        Vec2 testVec22 = new Vec2(3, 4);
         Vec2 normalVec = testVec22.Normal();
-        if (normalVec.x != -2 || normalVec.y != 1)
+        if (!Approx(normalVec.x, -0.8f) || !Approx(normalVec.y, 0.6f))
         {
             allTestsPassed = false;
             Console.WriteLine("Normal test failed");
@@ -406,6 +446,11 @@ public struct Vec2
         }
 
         return allTestsPassed;
+    }
+
+    private bool Approx(float a, float b, float tolerance = 0.0001f)
+    {
+        return Math.Abs(a - b) < tolerance;
     }
 }
 
